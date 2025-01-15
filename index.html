@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title></title>
+    <!--include bootstrap css-->
+   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css"/>
+    <!---------Custom CSS-------------------------------->
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <!--------------Font Awersome --------------------------------------->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<button id="pdf-generate">Download</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.common.min.css" />
+<script src="https://kendo.cdn.telerik.com/2017.1.223/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2017.1.223/js/kendo.all.min.js"></script>
+    <style>
+	
+    body{
+      margin: 0;
+      padding: 0;
+      background:rgba(250, 214, 42,0.7);
+      background-size: contain;
+
+    }
+	
+    .form-control:focus {
+
+    border-color:rgb(0, 105, 217)
+
+    box-shadow: 0 0 0 0.2rem rgba(0, 105, 217,1);
+    }
+    #btn{
+      display: block;
+    }
+
+    </style>
+
+
+
+</head>
+<body>
+<div id="example">
+    <div class="box wide hidden-on-narrow">
+    </div>
+
+    <div class="page-container hidden-on-narrow">
+        <div class="pdf-page size-a4">
+            <page size="A4">
+               
+               <!-- PDF CONTENT START -->
+
+               
+    <div class="main-container" id="second_div" style="display">
+        <div class="container">
+            <div class="left-cont">
+                <div>
+				
+                    <img src="" id="image" alt="" height="340px" width="320px" />
+
+                </div>
+                <div>
+
+                    <h1  class="name-h"><span   id="a2" class="m"></span></h1>
+
+
+                </div>
+                
+                <div>
+                    <h2 class="pro">CONTACT DETAILS</h2>
+					
+                    <p class="par" ><img src="data:image/jpeg;base64,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
+					"  class="mr"><span class="data"><span id="a4"></span></i></p>
+                    <p class="par"><img src="data:image/jpeg;base64,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
+					"  class="mr"><span class="data"  id="a6"></span></i></p>
+					<p class="par"><img src="data:image/jpeg;base64,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
+					"  class="mr"><span  id="a8"></span></p>
+					
+
+                </div>
+				
+				<div>
+                     <h2 class="pro">PERSONAL DETAILS</h2>
+					
+                    
+					<p class="par">Date Of Birth:&nbsp;&nbsp;<span id="a10"  ></span></p>
+					<p class="par">NIC No:&nbsp;&nbsp;<span id="a12"  ></span></p>
+					<p class="par">Age:&nbsp;&nbsp;<span  id="a14" ></span></p>
+					<p class="par">Gender:&nbsp;&nbsp;<span  id="a16" ></span></p>
+					<p class="par">Sivil Status:&nbsp;&nbsp;<span  id="a18" ></span></p>
+					<p class="par">Religion:&nbsp;&nbsp;<span  id="a20" ></span></p>
+					<p class="par">Nationality:&nbsp;&nbsp;<span  id="a22" ></span></p>
+					
+                    
+                </div>
+                <div>
+                    <h2 class="pro">LANGUAGE</h2>
+                    <p class="par"><span id="a24"></span></i></p>
+					<p class="par"><span id="a26"></span></i></p>
+					<p class="par"><span id="a28"></span></i></p>
+					<p class="par"><span id="a30"></span></i></p>
+                    
+                </div>
+
+
+
+
+            </div>
+
+            <div class="right-cont">
+                <div class="s-div">
+
+                    <h2 class="had"><i class="fa fa-book fa-lg icon1"></i><span class="educ">Education&nbsp;&nbsp;O/L</span></h2>
+                    
+					<div class="line">
+                        <!-- <div class="sub-line"></div> -->
+                    </div>
+					<center>	<p class="parx" >INDEX NO:&nbsp;&nbsp;<span  id="a32" ></span></p>
+</center>
+                    <div class="main-con">
+                        <div class="sub-con1">
+                            <ul class="main-lix">
+                                <li > BUDDHISM	<span id="a34"></span></li>
+                                <li > SINHALA<span id="a38"></span></li>
+                                <li > ENGLISH<span id="a42"></span></li>
+								<li > MATHEMATICS<span id="a46"></span></li>
+								<li > HISTORY<span id="a50"></span></li>
+								<li > SCIENCE<span id="a54"></span></li>
+								<li > <span  id="a58"></span></li>
+								<li > <span id="a62"></span></li>
+								<li > <span id="a66"></span></li>
+							
+
+                            </ul>
+
+
+                        </div>
+					
+                        <div class="sub-con1">
+
+                            <ul class="main-lixx">
+                                <li ><span  id="a36">:</span></li>
+								<li ><span id="a40" >:</span></li>
+								<li ><span id="a44" >:</span></li>
+								<li ><span id="a48" >:</span></li>
+                                <li ><span id="a52" >:</span></li>
+								<li ><span id="a56" >:</span></li>
+								<li ><span id="a60" >:</span></li>
+								<li ><span id="a64" >:</span></li>
+								<li ><span id="a68">:</span></li>
+
+
+                            </ul>
+                           
+
+                        </div>
+                    </div>
+
+
+                </div>
+				
+                <div class="s-div">
+
+                    <h2 class="had had2"><i class="fa fa-book fa-lg icon1"></i><span>Education&nbsp;&nbsp;A/L</span></h2>
+                    
+					<div class="line line1">
+					
+                        <div class="sub-line"></div>
+                    </div>
+					<center>	<p class="parx" >INDEX NO:&nbsp;&nbsp;<span  id="a70" ></span></p>
+</center>
+                    <div class="main-con">
+                        <div class="sub-con1">
+                            <ul class="main-lix">
+                                <li><span  id="a72" ></span></li>
+                                <li><span  id="a76"></span></li>
+								<li><span  id="a80"></span></li>
+								<li><span  id="a84"></span></li>
+                              <li><span  id="a88"></span></li>
+
+
+                            </ul>
+
+
+                        </div>
+                        <div class="sub-con1">
+                            <ul class="main-lixx">
+                                <li><span id="a74" >:</span></li>
+								 <li><span id="a78" >:</span></li>
+								  <li><span  id="a82">:</span></li>
+								   <li><span  id="a86">:</span></li>
+                                <li><span  id="a90">:</span></li>
+
+
+                            </ul>
+                           
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="s-div">
+
+                    <h2 class="had had2"><i class="fa fa-certificate fa-lg  icon1x"></i><span>Professional Skills</span></h2>
+                    <div class="line line1">
+                        <div class="sub-line"></div>
+                    </div>
+<ul class="main-lix">
+                    <p class="parx" >&nbsp;&nbsp;<span  id="a92" ></span></p>
+					 <p class="parx" >&nbsp;&nbsp;<span  id="a94" ></span></p>
+					 <p class="parx" >&nbsp;&nbsp;<span  id="a96" ></span></p>
+					 <p class="parx" >&nbsp;&nbsp;<span  id="a98" ></span></p>
+
+ </ul>
+ 
+  <div class="s-div">
+<p class="parxx"  ><img src="data:image/jpeg;base64,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
+"  class="mrr">
+I hereby certify that the above information provided &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by me is correct and true.<span  ></span></p>
+<p class="parxx" > Date........................<img src="data:image/jpeg;base64,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
+"  class="mrrr">Signature..........................	 <span   ></span></p>
+
+
+                    </div>
+                </div>
+				
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+    </div>
+
+
+
+    </div>
+               <!-- PDF CONTENT END -->
+
+            </page>
+        </div>
+    </div>
+    
+    <div class="responsive-message"></div>
+
+    <style>
+        /*
+            Use the DejaVu Sans font for display and embedding in the PDF file.
+            The standard PDF fonts have no support for Unicode characters.
+        */
+        .pdf-page {
+            font-family: "DejaVu Sans", "Arial", sans-serif;
+        }
+    </style>
+ 
+<!----------------------CV--------------------------------->
+ 
+
+  <div class="container-fluid">
+   <div class="container">
+    <div class="part1">
+	
+
+
+
+      <legend>Personal Information</legend>
+	  
+	      
+							<button style = "background-color: gray ; width;100px; height:30px;"><label for="inputGroupFile01"
+                           style = "background-color: gray ; width;100px; height:30px;"
+						   >
+                              ....Upload Image.....
+                          </label></button>
+	
+                   <input type="file" class="form-control visually-hidden"
+                            id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01"
+                            onchange="imagePreview(this)">
+                        <span class="form-control bg-light text-secondary"
+                            id="fileNameDisplay"></span>
+							  
+ <form action="" method="post" enctype="multipart/form-data">
+   <p class="preview">
+     
+     <span>.</span> 
+   </p>
+ 
+   <p class="file-info"></p>
+   <p id="error"></p>
+</form>
+       Name: <input type="text" id="a1" /> <br /><br />
+
+      Address: <input type="text" id="a3" /><br /><br />
+      Phone Number: <input type="text" id="a5" /><br /><br />
+	  Gmail: <input type="text" id="a7" /><br /><br />
+	  Date Of Birth: <input type="text" id="a9" /><br /><br />
+NIC No: <input type="text" id="a11" /><br /><br />
+Age: <input type="text" id="a13" /><br /><br />
+Gender: <input type="text" id="a15" list="ezvinet7"/><br /><br />
+<datalist id="ezvinet7">
+	   <option value="Male"></option>
+	   <option value="Female"></option>
+	   <option value=""></option>
+	   
+	   </datalist>
+Sivil Status: <input type="text" id="a17" list="ezvinet4" /><br /><br />
+<datalist id="ezvinet4">
+	   <option value="Single"></option>
+	   <option value=""></option>
+	   <option value=""></option>
+	   
+	   </datalist>
+Religion: <input type="text" id="a19" list="ezvinet5"/><br /><br />
+<datalist id="ezvinet5">
+	   <option value="Buddhist"></option>
+	   <option value=""></option>
+	   <option value=""></option>
+	   
+	   </datalist>
+Nationality: <input type="text" id="a21" list="ezvinet6"/><br /><br /><br />
+<datalist id="ezvinet6">
+	   <option value="Sri Lankan"></option>
+	   <option value=""></option>
+	   <option value=""></option>
+	   
+	   </datalist>
+LANGUAGE<br />
+ : <input type="text" id="a23" list="ezvinet"/><br /><br />
+ <datalist id="ezvinet">
+	   <option value="SINHALA"></option>
+	   <option value="TAMIL"></option>
+	   <option value="ENGLISH"></option>
+	   
+	   </datalist>
+: <input type="text" id="a25"list="ezvinet1" /><br /><br />
+<datalist id="ezvinet1">
+	   <option value="SINHALA"></option>
+	   <option value="TAMIL"></option>
+	   <option value="ENGLISH"></option>
+	   
+	   </datalist>
+: <input type="text" id="a27" list="ezvinet2"/><br /><br />
+<datalist id="ezvinet2">
+	   <option value="SINHALA"></option>
+	   <option value="TAMIL"></option>
+	   <option value="ENGLISH"></option>
+	   
+	   </datalist>
+: <input type="text" id="a29" list="ezvinet3"/><br /><br /><br />
+<datalist id="ezvinet3">
+	   <option value=""></option>
+	   <option value=""></option>
+	   <option value=""></option>
+	   
+	   </datalist>
+(O/L)INDEX NO: <input type="text" id="a31" /><br /><br />
+BUDDHISM:<br />
+result: <input type="text" id="a35" /><br /><br />
+SINHALA: <br />
+result: <input type="text" id="a39" /><br /><br />
+ENGLISH: <br />
+result: <input type="text" id="a43" /><br /><br />
+MATHEMATICS:<br />
+result: <input type="text" id="a47" /><br /><br />
+HISTORY: <br />
+result: <input type="text" id="a51" /><br /><br />
+SCIENCE: <br />
+result: <input type="text" id="a55" /><br /><br />
+i: <input type="text" id="a57" /><br />
+result: <input type="text" id="a59" /><br /><br />
+ii: <input type="text" id="a61" /><br />
+result: <input type="text" id="a63" /><br /><br />
+iii: <input type="text" id="a65" /><br />
+result: <input type="text" id="a67" /><br /><br /><br />
+(A/L)INDEX NO: <input type="text" id="a69" /><br /><br />
+i: <input type="text" id="a71" /><br />
+result: <input type="text" id="a73" /><br /><br />
+ii: <input type="text" id="a75" /><br />
+result: <input type="text" id="a77" /><br /><br />
+iii: <input type="text" id="a79" /><br />
+result: <input type="text" id="a81" /><br /><br />
+iv: <input type="text" id="a83" /><br />
+result: <input type="text" id="a85" /><br /><br />
+v: <input type="text" id="a87" /><br />
+result: <input type="text" id="a89" /><br /><br /><br />
+Professional Skills<br />
+: <input type="text" id="a91" /><br /><br />
+: <input type="text" id="a93" /><br /><br />
+: <input type="text" id="a95" /><br /><br />
+: <input type="text" id="a97" /><br /><br />
+     
+    </div>
+	
+
+
+
+
+
+
+  
+
+<!-----------------------CV End---------------------------->
+  <!--include bootstrap javaScript-->
+  <script>
+        // Import DejaVu Sans font for embedding
+
+        // NOTE: Only required if the Kendo UI stylesheets are loaded
+        // from a different origin, e.g. cdn.kendostatic.com
+        kendo.pdf.defineFont({
+            "DejaVu Sans"             : "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans.ttf",
+            "DejaVu Sans|Bold"        : "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+            "DejaVu Sans|Bold|Italic" : "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+            "DejaVu Sans|Italic"      : "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf"
+        });
+    </script>
+
+    <!-- Load Pako ZLIB library to enable PDF compression -->
+    <!-- <script src="../content/shared/js/pako.min.js"></script> -->
+
+    <script>
+      function getPDF(selector) {
+        kendo.drawing.drawDOM($(selector)).then(function(group){
+          kendo.drawing.pdf.saveAs(group, 'testing.pdf');
+        });
+      }
+    </script>
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+          font-family: 'Montserrat', sans-serif;
+    }
+    page[size="A4"] {  
+      width: 0px;
+      height:0px; 
+    }
+    page {
+      background: white; 
+      display: block;
+      margin: 0 ;
+    }
+
+</style>
+
+</div>
+
+<script type="text/javascript">
+       $('#pdf-generate').click(function(){
+         getPDF('.pdf-page');
+       })
+</script>
+  
+  
+    <script>
+   var Smosanew = 0;
+
+
+
+    
+  var smosanew_q = 0;
+
+
+   var name = "",
+    email = "";
+   var smosanewBill = "";
+
+
+   var total_amount = 0;
+   document.getElementById("a1").addEventListener("keyup", function () {
+    document.getElementById("a2").innerHTML = this.value;
+   });
+
+   document.getElementById("a3").addEventListener("keyup", function () {
+    document.getElementById("a4").innerHTML = this.value;
+   });
+
+   document.getElementById("a5").addEventListener("keyup", function () {
+    document.getElementById("a6").innerHTML = this.value;
+   });
+   
+   document.getElementById("a7").addEventListener("keyup", function () {
+    document.getElementById("a8").innerHTML = this.value;
+   });
+   
+   document.getElementById("a9").addEventListener("keyup", function () {
+    document.getElementById("a10").innerHTML = this.value;
+   });
+   document.getElementById("a11").addEventListener("keyup", function () {
+    document.getElementById("a12").innerHTML = this.value;
+   });
+   document.getElementById("a13").addEventListener("keyup", function () {
+    document.getElementById("a14").innerHTML = this.value;
+   });
+   document.getElementById("a15").addEventListener("keyup", function () {
+    document.getElementById("a16").innerHTML = this.value;
+   });
+   document.getElementById("a17").addEventListener("keyup", function () {
+    document.getElementById("a18").innerHTML = this.value;
+   });
+   document.getElementById("a19").addEventListener("keyup", function () {
+    document.getElementById("a20").innerHTML = this.value;
+   });
+   document.getElementById("a21").addEventListener("keyup", function () {
+    document.getElementById("a22").innerHTML = this.value;
+   });
+   document.getElementById("a23").addEventListener("keyup", function () {
+    document.getElementById("a24").innerHTML = this.value;
+   });
+   document.getElementById("a25").addEventListener("keyup", function () {
+    document.getElementById("a26").innerHTML = this.value;
+   });
+   document.getElementById("a27").addEventListener("keyup", function () {
+    document.getElementById("a28").innerHTML = this.value;
+   });
+   document.getElementById("a29").addEventListener("keyup", function () {
+    document.getElementById("a30").innerHTML = this.value;
+   });
+   document.getElementById("a31").addEventListener("keyup", function () {
+    document.getElementById("a32").innerHTML = this.value;
+   });
+   
+   document.getElementById("a35").addEventListener("keyup", function () {
+    document.getElementById("a36").innerHTML = this.value;
+   });
+  
+   document.getElementById("a39").addEventListener("keyup", function () {
+    document.getElementById("a40").innerHTML = this.value;
+   });
+   
+   document.getElementById("a43").addEventListener("keyup", function () {
+    document.getElementById("a44").innerHTML = this.value;
+   });
+   
+   document.getElementById("a47").addEventListener("keyup", function () {
+    document.getElementById("a48").innerHTML = this.value;
+   });
+   
+   document.getElementById("a51").addEventListener("keyup", function () {
+    document.getElementById("a52").innerHTML = this.value;
+   });
+   
+   document.getElementById("a55").addEventListener("keyup", function () {
+    document.getElementById("a56").innerHTML = this.value;
+   });
+   document.getElementById("a57").addEventListener("keyup", function () {
+    document.getElementById("a58").innerHTML = this.value;
+   });
+   document.getElementById("a59").addEventListener("keyup", function () {
+    document.getElementById("a60").innerHTML = this.value;
+   });
+   document.getElementById("a61").addEventListener("keyup", function () {
+    document.getElementById("a62").innerHTML = this.value;
+   });
+   document.getElementById("a63").addEventListener("keyup", function () {
+    document.getElementById("a64").innerHTML = this.value;
+   });
+   document.getElementById("a65").addEventListener("keyup", function () {
+    document.getElementById("a66").innerHTML = this.value;
+   });
+   document.getElementById("a67").addEventListener("keyup", function () {
+    document.getElementById("a68").innerHTML = this.value;
+   });
+   document.getElementById("a69").addEventListener("keyup", function () {
+    document.getElementById("a70").innerHTML = this.value;
+   });
+   document.getElementById("a71").addEventListener("keyup", function () {
+    document.getElementById("a72").innerHTML = this.value;
+   });
+   document.getElementById("a73").addEventListener("keyup", function () {
+    document.getElementById("a74").innerHTML = this.value;
+   });
+   document.getElementById("a75").addEventListener("keyup", function () {
+    document.getElementById("a76").innerHTML = this.value;
+   });
+   document.getElementById("a77").addEventListener("keyup", function () {
+    document.getElementById("a78").innerHTML = this.value;
+   });
+   document.getElementById("a79").addEventListener("keyup", function () {
+    document.getElementById("a80").innerHTML = this.value;
+   });
+   document.getElementById("a81").addEventListener("keyup", function () {
+    document.getElementById("a82").innerHTML = this.value;
+   });
+   document.getElementById("a83").addEventListener("keyup", function () {
+    document.getElementById("a84").innerHTML = this.value;
+   });
+document.getElementById("a85").addEventListener("keyup", function () {
+    document.getElementById("a86").innerHTML = this.value;
+   });
+   document.getElementById("a87").addEventListener("keyup", function () {
+    document.getElementById("a88").innerHTML = this.value;
+   });
+   document.getElementById("a89").addEventListener("keyup", function () {
+    document.getElementById("a90").innerHTML = this.value;
+   });
+   document.getElementById("a91").addEventListener("keyup", function () {
+    document.getElementById("a92").innerHTML = this.value;
+   });
+   document.getElementById("a93").addEventListener("keyup", function () {
+    document.getElementById("a94").innerHTML = this.value;
+   });
+   document.getElementById("a95").addEventListener("keyup", function () {
+    document.getElementById("a96").innerHTML = this.value;
+   });
+   document.getElementById("a97").addEventListener("keyup", function () {
+    document.getElementById("a98").innerHTML = this.value;
+   });
+document.getElementById("smosanew").addEventListener("keyup", function () {
+    if (this.value == "" || this.value == 0) {
+     smosanewBill = "";
+     smosanew_q = 0;
+     showBill();
+    } else {
+     smosanew_q = this.value;
+     smosanewBill = "<tr><td> All  Hikvision Analog Camera</td><td>" + smosanew_q + "</td></tr>";
+     showBill();
+    }
+   });
+
+
+   function showBill() {
+    document.getElementById("bill").innerHTML = smosanewBill  ;
+   <!--  document.getElementById("bill").innerHTML = smosaBill + kachoriBill + vadapavBill + dBill + eBill + fBill + gBill + hBill + iBil + jBill + kBill + lBill + mBill + nBill + oBill + pBill + qBill + rBill + sBill + tBill + uBill + vBill + wBill + xBill + yBill + zBill + aaBill + bbBill + ccBill + ddBill + eeBill + ffBill + ggBill + hhBill + iiBil + jjBill + kkBill + llBill + mmBill + nnBill + ooBill + ppBill + qqBill + rrBill + ssBill + ttBill + uuBill + vvBill + wwBill + xxBill + yyBill + zzBill+ aaaBill + bbbBill + cccBill + dddBill + eeeBill + fffBill + gggBill + hhhBill + iiiBil + jjjBill + kkkBill + lllBill + mmmBill + nnnBill + oooBill + pppBill + qqqBill + rrrBill + sssBill + tttBill + uuuBill + vvvBill + wwwBill + xxxBill + yyyBill + zzzBill + abBill + bbBill + cbBill + dbBill + ebBill + fbBill + gbBill + hbBill + ibBil + jbBill + kbBill + lbBill + mbBill + nbBill + obBill + pbBill + qbBill + rbBill + sbBill + tbBill + ubBill + vbBill + wbBill + xbBill + ybBill + zbBill + abbBill + bbbBill + cbbBill + dbbBill + ebbBill + fbbBill + gbbBill + hbbBill + ibbBil + jbbBill + kbbBill + lbbBill + mbbBill + nbbBill + obbBill + pbbBill + qbbBill + rbbBill + sbbBill + tbbBill + ubbBill + vbbBill + wbbBill + xbbBill + ybbBill + zbbBill+ aabbBill + bbbbBill + ccbbBill + ddbbBill + eebbBill + ffbbBill + ggbbBill;-->
+   <!-- document.getElementById("amount").innerHTML = Smosa * smosa_q + Kachori * kachori_q + Vadapav * vadapav_q + D * d_q; -->
+   }
+   
+		
+		
+
+ 
+  </script>
+  <script src="script.js"></script> 
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+
+  <!--include bootstrap JQuery-->
+  <script src="bootstrap/js/jquery-3.4.1.min.js"></script>
+<script>
+  var link;
+  var profile_image=document.getElementById('profile_image');
+  var first_n=document.getElementById("first_n");
+  var second_n=document.getElementById('second_n');
+  var second_div=document.getElementById('second_div');
+  var btn=document.getElementById('btn');
+  var address_=document.getElementById('address_');
+   var first_div=document.getElementById('main');
+   var mail=document.getElementById('mail');
+   var fb=document.getElementById('fb');
+   var profile_img=document.getElementById('profile_img');
+   var matric_title=document.getElementById('matric_title');
+   var matric_board=document.getElementById('matric_board');
+   var matric_grade=document.getElementById('matric_grade');
+   var inter_title=document.getElementById('inter_title');
+   var inter_board=document.getElementById('inter_board');
+   var inter_grade=document.getElementById('inter_grade');
+   var bach_title=document.getElementById('bach_title');
+   var bach_board=document.getElementById('bach_board');
+   var bach_grade=document.getElementById('bach_grade');
+   var cer1_value=document.getElementById('cer1_value');
+  var cer1_provider=document.getElementById('cer1_provider');
+  var cer1_grade=document.getElementById('cer1_grade');
+   var cer2_value=document.getElementById('cer2_value');
+  var cer2_provider=document.getElementById('cer2_provider');
+  var cer2_grade=document.getElementById('cer2_grade');
+  var lang1_value=document.getElementById('lang1_value');
+  var lang2_value=document.getElementById('lang2_value');
+  var lang1_bar=document.getElementById('pro-value9');
+  var lang2_bar=document.getElementById('pro-value10');
+  var skill1=document.getElementById('skill1');
+  var skill2=document.getElementById('skill2');
+  var skill3=document.getElementById('skill3');
+  var skill4=document.getElementById('skill4');
+  var skill1_val=document.getElementById('pro-value3');
+  var skill2_val=document.getElementById('pro-value4');
+  var skill3_val=document.getElementById('pro-value5');
+  var skill4_val=document.getElementById('pro-value6');
+   var cell_no=document.getElementById('cell');
+   var cer1_val=document.getElementById('cer1_val');
+   var cer2_val=document.getElementById('cer2_val');
+   btn.onclick=click;
+
+   function upload(path){
+     var path1=path.split('fakepath\\');
+     this.link=path1;
+   }
+   function click(){
+  var olevel_start=document.getElementById('olevel_start').value;
+  
+  
+  var first_name=document.getElementById('first_name').value;
+  var second_name=document.getElementById('second_name').value;
+  var address=document.getElementById('address').value;
+  var phone_no=document.getElementById('phone_no').value;
+  var email=document.getElementById('email').value;
+  var facebook_link=document.getElementById('facebook_link').value;
+  var language1_value=document.getElementById('language1_value').value;
+  var language1_level=document.getElementById('language1_level').value;
+  var language2_value=document.getElementById('language2_value').value;
+  var language2_value=document.getElementById('language2_level').value;
+  var skill1_value=document.getElementById('skill1_value').value;
+  var skill1_level=document.getElementById('skill1_level').value;
+  var skill2_value=document.getElementById('skill2_value').value;
+  var skill2_level=document.getElementById('skill2_level').value;
+  var skill3_value=document.getElementById('skill3_value').value;
+  var skill3_level=document.getElementById('skill3_level').value;
+  var skill4_value=document.getElementById('skill4_value').value;
+  var skill4_level=document.getElementById('skill4_level').value;
+  var alevel_value=document.getElementById('alevel_value').value;
+  var alevel_start=document.getElementById('alevel_start').value;
+  var olevel_start=document.getElementById('olevel_start').value;
+  var alevel_end=document.getElementById('alevel_end').value;
+  var olevel_end=document.getElementById('olevel_end').value;
+  var alevel_school=document.getElementById('alevel_school').value;
+  var alevel_grade=document.getElementById('alevel_grade').value;
+  var olevel_value=document.getElementById('olevel_value').value;
+  var olevel_school=document.getElementById('olevel_school').value;
+  var olevel_grade=document.getElementById('olevel_grade').value;
+  var grad_value=document.getElementById('grad_value').value;
+  var grad_school=document.getElementById('grad_school').value;
+  var grad_grade=document.getElementById('grad_grade').value;
+  var grad_start=document.getElementById('grad_start').value;
+  var grad_end=document.getElementById('grad_end').value;
+  var cert1_value=document.getElementById('cert1_value').value;
+  var cert1_provider=document.getElementById('cert1_provider').value;
+  var cert1_grade=document.getElementById('cert1_grade').value;
+  var cert2_value=document.getElementById('cert2_value').value;
+  var cert2_provider=document.getElementById('cert2_provider').value;
+  var cert2_grade=document.getElementById('cert2_grade').value;
+  var language1_value=document.getElementById('language1_value').value;
+  var language1_level=document.getElementById('language1_level').value;
+  var language2_value=document.getElementById('language2_value').value;
+  var language2_level=document.getElementById('language2_level').value;
+  var skill1_value=document.getElementById('skill1_value').value;
+  var skill1_level=document.getElementById('skill1_level').value;
+  var skill2_value=document.getElementById('skill2_value').value;
+  var skill2_level=document.getElementById('skill2_level').value;
+  var skill3_value=document.getElementById('skill3_value').value;
+  var skill3_level=document.getElementById('skill3_level').value;
+  var skill4_value=document.getElementById('skill4_value').value;
+  var skill4_level=document.getElementById('skill4_level').value;
+  var o_start=document.getElementById('o_start');
+  var o_end=document.getElementById('o_end');
+  var a_start=document.getElementById('a_start');
+  var a_end=document.getElementById('a_end');
+  var b_start=document.getElementById('b_start');
+  var b_end=document.getElementById('b_end');
+  first_div.style.display = "none";
+  second_div.style.display="block";
+  first_n.innerHTML=first_name;
+  second_n.innerText=second_name;
+  address_.innerText=address;
+  cell_no.innerText=phone_no;
+  mail.innerText=email;
+  fb.href=facebook_link;
+  fb.innerText=first_name+" "+second_name;
+  matric_title.innerText=alevel_value;
+  matric_board.innerText=alevel_school;
+  matric_grade.innerText=alevel_grade;
+  inter_title.innerText=olevel_value;
+  inter_board.innerText=olevel_school;
+  inter_grade.innerText=olevel_grade;
+  bach_title.innerText=grad_value;
+  bach_board.innerText=grad_school;
+  bach_grade.innerText=grad_grade;
+  cer1_value.innerText=cert1_value;
+  cer1_provider.innerText=cert1_provider;
+  cer1_grade.innerText=cert1_grade;
+  cer2_value.innerText=cert2_value;
+  cer2_provider.innerText=cert2_provider;
+  cer2_grade.innerText=cert2_grade;
+  lang1_value.innerText=language1_value;
+  lang2_value.innerText=language2_value;
+  lang1_bar.style.width=language1_level*2.5+'px';
+  lang2_bar.style.width=language2_level*2.5+'px';
+  skill1.innerText=skill1_value;
+  skill2.innerText=skill2_value;
+  skill3.innerText=skill3_value;
+  skill4.innerText=skill4_value;
+  skill4_val.style.width=skill4_level*2.5+'px';
+  skill3_val.style.width=skill3_level*2.5+'px';
+  skill2_val.style.width=skill3_level*2.5+'px';
+  skill1_val.style.width=skill1_level*2.5+'px';
+   var d=new Date(olevel_start);
+  var olevel_star=d.getFullYear();
+  var dd=new Date(alevel_start);
+  var alevel_star=dd.getFullYear();
+  a_start.innerText=alevel_star;
+  o_start.innerText=olevel_star;
+  ////////////////////////////////
+  var d4=new Date(olevel_end);
+  var olevel_en=d4.getFullYear();
+  var d5=new Date(alevel_end);
+  var alevel_en=d5.getFullYear();
+  a_end.innerText=alevel_en;
+  o_end.innerText=olevel_en;
+  /////////////////////////////////
+  var d6=new Date(grad_start).getFullYear();
+  b_start.innerText=d6;
+  var d7=new Date(grad_end).getFullYear();
+  b_end.innerText=d7;
+  //////////////////////////////////////////
+  cer1_val.innerText=cert1_provider;
+  cer2_val.innerText=cert2_provider;
+  
+  btn.style.display="none";
+  profile_img.src=link[1];
+  
+ 
+
+
+   }
+
+ let file_Name_Display = document
+            .getElementById("fileNameDisplay");
+
+        function updateFileName(input) {
+            if (input.files.length > 0) {
+                file_Name_Display
+                    .innerText = "You chose: " + input.files[0].name;
+                file_Name_Display
+                    .classList.remove("bg-light");
+                file_Name_Display
+                    .classList
+                    .add("bg-primary", "text-white");
+            }
+            else {
+                file_Name_Display
+                    .innerText = "Choose file";
+                file_Name_Display
+                    .classList.remove("bg-primary", "text-white");
+                file_Name_Display
+                    .classList
+                    .add("bg-light", "text-secondary");
+            }
+        }
+
+
+</script>
+
+
+</body>
+
+
+</html>
